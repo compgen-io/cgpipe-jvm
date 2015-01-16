@@ -5,15 +5,12 @@ import org.ngsutils.mvpipe.parser.context.ExecContext;
 import org.ngsutils.mvpipe.parser.variable.VarTypeException;
 import org.ngsutils.mvpipe.parser.variable.VarValue;
 
-public class Mul implements Operator {
+public class Mul extends BasicOp {
 
 	@Override
-	public VarValue eval(ExecContext context, String lstr, VarValue rval) 
-			throws SyntaxException {
-		VarValue left = VarValue.parseString(lstr, context);
-			
+	public VarValue eval(ExecContext context, VarValue lval, VarValue rval) throws SyntaxException {
 		try {
-			return left.mul(rval);
+			return lval.mul(rval);
 		} catch (VarTypeException e) {
 			throw new SyntaxException(e);
 		}
