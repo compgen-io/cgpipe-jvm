@@ -16,8 +16,13 @@ public class IncludeNode extends ASTNode {
 	public ASTNode exec(ExecContext context) throws ASTExecException {
 		try {
 			String filename = Eval.evalTokenExpression(tokens, context).toString();
-			Parser nestedAST = Parser.parseAST(filename, tokens.getLine().getPipeline().getLoader());
-			nestedAST.exec(context);
+			
+			if (filename == null) {
+				throw new ASTExecException("Missing include file", tokens.getLine());
+			} else {
+				Parser nestedAST = Parser.parseAST(filename, tokens.getLine().getPipeline().getLoader());
+				nestedAST.exec(context);
+			}
 		} catch (ASTParseException e) {
 			throw new ASTExecException(e);
 		}
